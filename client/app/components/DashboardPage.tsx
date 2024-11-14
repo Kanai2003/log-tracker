@@ -65,9 +65,7 @@ export default function Dashboard() {
     handleGetData();
   }, [handleGetData]);
 
-  const renderLogsTable = (
-    logs: LogType[]
-  ) => (
+  const renderLogsTable = (logs: LogType[]) => (
     <table className="table-auto border-collapse border border-gray-300 w-full mt-2">
       <thead>
         <tr>
@@ -116,21 +114,31 @@ export default function Dashboard() {
             <>
               <section className="mb-6">
                 <h2 className="text-xl font-semibold mb-2">Admin Logs</h2>
-                {details.adminDetailsAndLogs?.logs && renderLogsTable(details.adminDetailsAndLogs.logs)}
+                {details.adminDetailsAndLogs?.logs &&
+                  renderLogsTable(details.adminDetailsAndLogs.logs)}
               </section>
 
               <section>
                 <h2 className="text-xl font-semibold mb-2">All User Logs</h2>
                 {details.allUserDetailsAndLogs &&
-                  Object.keys(details.allUserDetailsAndLogs).map((userEmail) => (
-                    <div key={userEmail} className="mb-6">
-                      <h3 className="text-lg font-semibold">{userEmail}</h3>
-                      <p>
-                        Name: {details?.allUserDetailsAndLogs[userEmail]?.userDetails?.name ?? "N/A"}
-                      </p>
-                      {renderLogsTable(details?.allUserDetailsAndLogs[userEmail]?.logs ?? [])}
-                    </div>
-                  ))}
+                  Object.keys(details.allUserDetailsAndLogs).map(
+                    (userEmail) => (
+                      <div key={userEmail} className="mb-6">
+                        <h3 className="text-lg font-semibold">{userEmail}</h3>
+                        {details?.allUserDetailsAndLogs?.[userEmail]?.userDetails?.name ? (
+                          <p>
+                            Name:{" "}
+                            {details?.allUserDetailsAndLogs?.[userEmail]?.userDetails?.name ?? "N/A"}
+                          </p>
+                        ) : null}
+                    
+                        {renderLogsTable(
+                          details?.allUserDetailsAndLogs?.[userEmail]?.logs ?? []
+                        )}
+                      </div>
+                    )
+                    
+                  )}
               </section>
             </>
           )}
